@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Resume Reviewer</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f6f8;
+            color: #222;
+        }
+
+        header {
+            background: #1f2937;
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin-bottom: 8px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            margin-bottom: 25px;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 250px;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            resize: vertical;
+            margin-top: 15px;
+            font-size: 15px;
+        }
+
+        button {
+            margin-top: 15px;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            background: #2563eb;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        #result {
+            display: none;
+        }
+
+        .score {
+            font-size: 40px;
+            font-weight: bold;
+            color: #2563eb;
+            margin: 15px 0;
+        }
+
+        ul {
+            margin: 10px 0 0 20px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>AI Resume Reviewer</h1>
+    <p>Analyze your resume and get improvement suggestions</p>
+</header>
+
+<div class="container">
+
+    <div class="card">
+        <h2>Upload / Paste Your Resume</h2>
+
+        <textarea id="resumeText"
+            placeholder="Paste your resume text here..."></textarea>
+
+        <button onclick="reviewResume()">
+            Review Resume
+        </button>
+    </div>
+
+    <div class="card" id="result">
+
+        <h2>Resume Analysis</h2>
+
+        <div class="score" id="score">0/100</div>
+
+        <h3>Suggestions</h3>
+
+        <ul id="suggestions"></ul>
+
+    </div>
+
+</div>
+
+<script>
+function reviewResume() {
+
+    const resume = document.getElementById("resumeText").value.trim();
+
+    if (resume === "") {
+        alert("Please paste your resume first.");
+        return;
+    }
+
+    let score = 50;
+    let suggestions = [];
+
+    if (resume.length > 1000) {
+        score += 10;
+    } else {
+        suggestions.push("Add more relevant details to your resume.");
+    }
+
+    if (resume.toLowerCase().includes("skills")) {
+        score += 10;
+    } else {
+        suggestions.push("Add a dedicated Skills section.");
+    }
+
+    if (resume.toLowerCase().includes("education")) {
+        score += 10;
+    } else {
+        suggestions.push("Add your Education section.");
+    }
+
+    if (resume.toLowerCase().includes("project")) {
+        score += 10;
+    } else {
+        suggestions.push("Include relevant projects.");
+    }
+
+    if (resume.toLowerCase().includes("experience")) {
+        score += 10;
+    } else {
+        suggestions.push("Add internship or work experience if available.");
+    }
+
+    document.getElementById("score").textContent = score + "/100";
+
+    const suggestionList = document.getElementById("suggestions");
+    suggestionList.innerHTML = "";
+
+    suggestions.forEach(function(item) {
+        const li = document.createElement("li");
+        li.textContent = item;
+        suggestionList.appendChild(li);
+    });
+
+    document.getElementById("result").style.display = "block";
+}
+</script>
+
+</body>
+</html>
